@@ -5,6 +5,7 @@ import fetchTours from '../../hooks/ToursFetch'
 import style from "./Tours.module.css"
 import {useEffect, useState} from 'react'
 import {userData} from "../../Helpers"
+import { toast } from 'react-toastify';
 
 const Tours = () => {
   const [tours, setTours] = useState([])

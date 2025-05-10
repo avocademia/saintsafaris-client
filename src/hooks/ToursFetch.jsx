@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const fetchSingleTour = async () => {
+const fetchTours = async () => {
 
     const devUrl = import.meta.env.VITE_DEV_URL
     const prodUrl = import.meta.env.VITE_PROD_URL
@@ -19,8 +19,9 @@ const fetchSingleTour = async () => {
         );
         return res.data.data
     } catch (error) {
+        console.log(error)
         throw error
     }
 }
 
-export default fetchSingleTour
+export default fetchTours

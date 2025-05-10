@@ -21,6 +21,7 @@ const Home = () => {
               setTours(data)
           } catch (error) {
               toast('An error occured fetching tours')
+              console.log(error)
           }
       }
         getTours()
