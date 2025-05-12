@@ -1,5 +1,5 @@
 import axios from "axios"
-import authCheck from '../hooks/AuthCheck'
+import  {setCookie} from '../Helpers'
 
 const flightBooking = async (data) => {
     const devUrl = import.meta.env.VITE_DEV_URL
@@ -7,15 +7,15 @@ const flightBooking = async (data) => {
     const environment = import.meta.env.NODE_ENV
   
     try {
-      const authorized = await authCheck()
-      if (authorized === true) {
-        const response = await axios.post(`${environment === 'production' ? prodUrl : devUrl}/api/flight-booking`, data)
-        return response.data
-      } else {
-        toast.error('Authorization failed. Please log in again.')
-        return null
+        const response = await axios.post(`${environment === 'production' ? prodUrl : devUrl}/api/flight-booking`, data, {
+          withCredentials: true
+        })
+        if (response.data.jwt && typeof response.data.jwt === 'string') {
+          setCookie('acst', response.data.jwt, 30)
       }
+        return response.data
     } catch (error) {
+      console.log(error)
       throw error
     }
   }

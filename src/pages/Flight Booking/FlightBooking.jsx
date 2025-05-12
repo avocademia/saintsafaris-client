@@ -13,11 +13,7 @@ import travellers from "../../hooks/Travellers"
 import multiCity from "../../hooks/MultiCity"
 
 const FlightBooking = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    full_name: "",
-    phone: "",
-    email: "",
+  const initialUser = {
     adults: 0,
     children: 0,
     infants: 0,
@@ -30,8 +26,8 @@ const FlightBooking = () => {
     multiCityDestinations: [],
     travelers: [],
     visaAssistance: false,
-  })
-
+  }
+  const [formData, setFormData] = useState(initialUser)
   const [loading, setLoading] = useState(false)
   const countries = countryList().getData()
   const handlePhoneChange = (phone) => {
@@ -100,6 +96,7 @@ const FlightBooking = () => {
         await multiCity({cities: formData.multiCityDestinations, booking: response.bookingId})
       }
       toast.success("Booking completed successfully!")
+      setFormData(initialUser)
     } catch (error) {
       console.log(error)
       toast.error("There was an error with the booking. Please try again.");
@@ -135,195 +132,162 @@ const FlightBooking = () => {
         <Header/>
         <form onSubmit={handleSubmit}>
             <h2>Flight Form</h2>
-            
-            <h3>Client Details</h3>
-        <div className={style.fieldContainer}>
-          <label className={style.fieldLabel}>Title:
-            <select name="title" value={formData.title} onChange={handleInputChange}>
-              <option value="">Select Title</option>
-              <option value="Mr.">Mr.</option>
-              <option value="Mrs.">Mrs.</option>
-              <option value="Miss">Miss</option>
-              <option value="Sir">Master</option>
-            </select>
-          </label>
-        </div>
-        <div className={style.fieldContainer}>
-          <label className={style.fieldLabel}>Full Name:
-            <input type="text" name="full_name" value={formData.full_name} onChange={handleInputChange} />
-          </label>
-        </div>
-        <div className={style.fieldContainer}>
-          <label className={style.fieldLabel}>Phone Number:
-            <PhoneInput
-              country={'us'}
-              value={formData.phone}
-              onChange={handlePhoneChange}
-              inputStyle={{ width: '100%' }}
-            />
-          </label>
-        </div>
-        <div className={style.fieldContainer}>
-          <label className={style.fieldLabel}>Email:
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
-          </label>
-        </div>
 
-        <h3>Travel Details</h3>
-        <div className={style.fieldContainer}>
-                <label className={style.fieldLabel}>No. of Adults Travelling (12yrs+):
-                    <input type="number" name="adults" value={formData.adults} onChange={handleInputChange} />
-                </label>
+            <h3>Travel Details</h3>
+            <div className={style.fieldContainer}>
+              <label className={style.fieldLabel}>No. of Adults Travelling (12yrs+):
+                <input type="number" name="adults" value={formData.adults} onChange={handleInputChange} />
+              </label>
             </div>
             <div className={style.fieldContainer}>
-                <label className={style.fieldLabel}>No. of Children Travelling (2 - 11yrs):
-                    <input type="number" name="children" value={formData.children} onChange={handleInputChange} />
-                </label>
+              <label className={style.fieldLabel}>No. of Children Travelling (2 - 11yrs):
+                <input type="number" name="children" value={formData.children} onChange={handleInputChange} />
+              </label>
             </div>
             <div className={style.fieldContainer}>
-                <label className={style.fieldLabel}>No. of Infants Travelling (0 - 23 months):
-                    <input type="number" name="infants" value={formData.infants} onChange={handleInputChange} />
-                </label>
+              <label className={style.fieldLabel}>No. of Infants Travelling (0 - 23 months):
+                <input type="number" name="infants" value={formData.infants} onChange={handleInputChange} />
+              </label>
             </div>
             <div className={style.fieldContainer}>
-                <label className={style.fieldLabel}>City of Residence/Departure:
-                    <input type="text" name="city" value={formData.city} onChange={handleInputChange} />
-                </label>
+              <label className={style.fieldLabel}>City of Residence/Departure:
+                <input type="text" name="city" value={formData.city} onChange={handleInputChange} />
+              </label>
             </div>
             <div className={style.fieldContainer}>
-                <label className={style.fieldLabel}>Date of Travel:
-                    <input type="date" name="travel_date" value={formData.travel_date} onChange={handleInputChange} />
-                </label>
+              <label className={style.fieldLabel}>Date of Travel:
+                <input type="date" name="travel_date" value={formData.travel_date} onChange={handleInputChange} />
+              </label>
             </div>
             <div className={style.fieldContainer}>
-                <label className={style.fieldLabel}>Trip Type:
-                    <select name="tripType" value={formData.tripType} onChange={handleTripTypeChange}>
-                        <option value="">Select</option>
-                        <option value="one-way">One-way</option>
-                        <option value="return">Return</option>
-                        <option value="multi-city">Multi-city</option>
-                    </select>
-                </label>
+              <label className={style.fieldLabel}>Trip Type:
+                <select name="tripType" value={formData.tripType} onChange={handleTripTypeChange}>
+                  <option value="">Select</option>
+                  <option value="one-way">One-way</option>
+                  <option value="return">Return</option>
+                  <option value="multi-city">Multi-city</option>
+                </select>
+              </label>
             </div>
 
-            {formData.tripType === 'one-way' && (
-                <div className={style.fieldContainer}>
-                    <label className={style.fieldLabel}>Destination:
-                        <input type="text" name="destination" value={formData.destination} onChange={handleInputChange} />
-                    </label>
-                </div>
+            {(formData.tripType === 'one-way' || formData.tripType === 'return') && (
+              <div className={style.fieldContainer}>
+                <label className={style.fieldLabel}>Destination:
+                  <input type="text" name="destination" value={formData.destination} onChange={handleInputChange} />
+                </label>
+              </div>
             )}
 
             {formData.tripType === 'return' && (
                 <div className={style.fieldContainer}>
-                    <label className={style.fieldLabel}>Return Date:
-                        <input type="date" name="return_date" value={formData.return_date} onChange={handleInputChange} />
-                    </label>
-                </div>
+                  <label className={style.fieldLabel}>Return Date:
+                    <input type="date" name="return_date" value={formData.return_date} onChange={handleInputChange} />
+                  </label>
+              </div>
             )}
 
-{formData.tripType === 'multi-city' && (
-  <>
-    <div className={style.fieldContainer}>
-      <label className={style.fieldLabel}>Number of Cities:
-        <input 
-          type="number" 
-          name="numberOfCities" 
-          value={formData.numberOfCities} 
-          onChange={handleCityCountChange} 
-        />
-      </label>
-    </div>
-    {Array.from({ length: formData.numberOfCities }, (_, i) => (
-      <div key={i} className={style.fieldContainer}>
-        <label className={style.fieldLabel}>City {i + 1}:
-          <input
-            type="text"
-            name={`city_${i}`}
-            value={formData.multiCityDestinations[i]?.city || ''}
-            onChange={(e) => handleMultiCityChange(i, 'city', e.target.value)}
-          />
-        </label>
+            {formData.tripType === 'multi-city' && (
+              <>
+                <div className={style.fieldContainer}>
+                    <label className={style.fieldLabel}>Number of Cities:
+                    <input 
+                      type="number" 
+                      name="numberOfCities" 
+                      value={formData.numberOfCities} 
+                      onChange={handleCityCountChange} 
+                    />
+                  </label>
+                </div>
+                {Array.from({ length: formData.numberOfCities }, (_, i) => (
+                  <div key={i} className={style.fieldContainer}>
+                    <label className={style.fieldLabel}>City {i + 1}:
+                      <input
+                        type="text"
+                        name={`city_${i}`}
+                        value={formData.multiCityDestinations[i]?.city || ''}
+                        onChange={(e) => handleMultiCityChange(i, 'city', e.target.value)}
+                      />
+                    </label>
 
-        {i !== formData.numberOfCities - 1 && (
-          <label className={style.fieldLabel}>Date of departure {i + 1}:
-            <input
-              type="date"
-              name={`date_${i}`}
-              value={formData.multiCityDestinations[i]?.date || ''}
-              onChange={(e) => handleMultiCityChange(i, 'date', e.target.value)}
-            />
-          </label>
-        )}
-      </div>
-    ))}
-  </>
-)}
+                    {i !== formData.numberOfCities - 1 && (
+                      <label className={style.fieldLabel}>Date of departure {i + 1}:
+                        <input
+                          type="date"
+                          name={`date_${i}`}
+                          value={formData.multiCityDestinations[i]?.date || ''}
+                          onChange={(e) => handleMultiCityChange(i, 'date', e.target.value)}
+                        />
+                      </label>
+                    )}
+                  </div>
+                ))}
+              </>
+            )}
 
-<h3>Traveller(s)'s Details</h3>
-        {formData.travelers.map((traveler, index) => (
-          <div key={index} className={style.travelerContainer}>
-            <h4>Traveler {index + 1}</h4>
+            <h3>Traveller(s)'s Details</h3>
+            {formData.travelers.map((traveler, index) => (
+              <div key={index} className={style.travelerContainer}>
+                <h4>Traveler {index + 1}</h4>
+                <div className={style.fieldContainer}>
+                  <label className={style.fieldLabel}>Title:
+                    <select name="title" value={traveler.title} onChange={(e) => handleTravelerChange(index, e)}>
+                      <option value="">Select Title</option>
+                      <option value="Mr.">Mr.</option>
+                      <option value="Mrs.">Mrs.</option>
+                      <option value="Miss">Miss</option>
+                      <option value="Miss">Master</option>
+                    </select>
+                  </label>
+                </div>
+                <div className={style.fieldContainer}>
+                  <label className={style.fieldLabel}>Full Name:
+                    <input type="text" name="full_name" value={traveler.full_name} onChange={(e) => handleTravelerChange(index, e)} />
+                  </label>
+                </div>
+                <div className={style.fieldContainer}>
+                  <label className={style.fieldLabel}>Identification Type:
+                    <select
+                      name="identification_type"
+                      value={traveler.identification_type}
+                      onChange={(e) => handleTravelerChange(index, e)}
+                    >
+                      <option value="">Select ID Type</option>
+                      <option value="National ID">National ID</option>
+                      <option value="Passport">Passport</option>
+                      <option value="Birth Certificate">Birth Certificate</option>
+                      <option value="Visa">Visa</option>
+                    </select>
+                  </label>
+                </div>
+                <div className={style.fieldContainer}>
+                  <label className={style.fieldLabel}>Identification No.:
+                    <input type="text" name="identification_no" value={traveler.identification_no} onChange={(e) => handleTravelerChange(index, e)} />
+                  </label>
+                </div>
+                <div className={style.fieldContainer}>
+                  <label className={style.fieldLabel}>Nationality:
+                    <Select
+                      options={countries}
+                      name="nationality"
+                      value={countries.find((country) => country.value === traveler.nationality)}
+                      onChange={(value) => handleTravelerChange(index, { target: { name: 'nationality', value: value.value } })}
+                      placeholder="Select Country"
+                    />
+                  </label>
+                </div>
+              </div>
+            ))}
             <div className={style.fieldContainer}>
-              <label className={style.fieldLabel}>Title:
-                <select name="title" value={traveler.title} onChange={(e) => handleTravelerChange(index, e)}>
-                  <option value="">Select Title</option>
-                  <option value="Mr.">Mr.</option>
-                  <option value="Mrs.">Mrs.</option>
-                  <option value="Miss">Miss</option>
-                  <option value="Miss">Master</option>
-                </select>
-              </label>
-            </div>
-            <div className={style.fieldContainer}>
-              <label className={style.fieldLabel}>Full Name:
-                <input type="text" name="full_name" value={traveler.full_name} onChange={(e) => handleTravelerChange(index, e)} />
-              </label>
-            </div>
-            <div className={style.fieldContainer}>
-              <label className={style.fieldLabel}>Identification Type:
-                <select
-                  name="identification_type"
-                  value={traveler.identification_type}
-                  onChange={(e) => handleTravelerChange(index, e)}
-                >
-                  <option value="">Select ID Type</option>
-                  <option value="National ID">National ID</option>
-                  <option value="Passport">Passport</option>
-                  <option value="Birth Certificate">Birth Certificate</option>
-                  <option value="Visa">Visa</option>
-                </select>
-              </label>
-            </div>
-            <div className={style.fieldContainer}>
-              <label className={style.fieldLabel}>Identification No.:
-                <input type="text" name="identification_no" value={traveler.identification_no} onChange={(e) => handleTravelerChange(index, e)} />
-              </label>
-            </div>
-            <div className={style.fieldContainer}>
-              <label className={style.fieldLabel}>Nationality:
-                <Select
-                  options={countries}
-                  name="nationality"
-                  value={countries.find((country) => country.value === traveler.nationality)}
-                  onChange={(value) => handleTravelerChange(index, { target: { name: 'nationality', value: value.value } })}
-                  placeholder="Select Country"
+              <label className={style.fieldLabel}>
+                Do you require visa assistance?
+                <input
+                  type="checkbox"
+                  name="visaAssistance"
+                  checked={formData.visaAssistance}
+                  onChange={handleInputChange}
                 />
               </label>
             </div>
-          </div>
-        ))}
- <div className={style.fieldContainer}>
-          <label className={style.fieldLabel}>
-            Do you require visa assistance?
-            <input
-              type="checkbox"
-              name="visaAssistance"
-              checked={formData.visaAssistance}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
 
             <button className={style.submitBtn} type="submit">Submit</button>
         </form>

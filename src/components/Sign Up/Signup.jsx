@@ -1,8 +1,9 @@
-import styled from "styled-components";
-import { useState } from "react";
-import { ToastContainer } from "react-toastify";
-import signup from "../../hooks/signup";
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components"
+import { useState } from "react"
+import { ToastContainer } from "react-toastify"
+import signup from '../../hooks/Signup'
+import { useNavigate } from "react-router-dom"
+import PhoneInput from "react-phone-input-2"
 
 const SignUpForm = styled.form`
   display: flex;
@@ -78,6 +79,14 @@ const Button = styled.button`
 const A = styled.a`
   color: #c95802;
 `
+const UsernameErrorLink = styled.a`
+  font-size: 12px;
+  color: red;
+  font-family: "nunito", sans-serif;
+  margin-top: 5px;
+  text-decoration: underline;
+  cursor: default;
+`
 
 const Signup = () => {
   const initialUser = {
@@ -95,18 +104,37 @@ const Signup = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState(initialUser)
   const [agreed, setAgreed] = useState(false)
-  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [passwordMatch, setPasswordMatch] = useState(true)
+  const [usernameError, setUsernameError] = useState()
 
   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setUser((currentUser) => ({
-      ...currentUser,
-      [name]: value,
-    }));
+    const { name, value } = target
 
+    if (name === 'username') {
+      const allowed = /^[a-z0-9._]*$/
+      if (allowed.test(value) || value === '') {
+        setUser((currentUser) => ({
+          ...currentUser,
+          [name]: value,
+        }))
+        setUsernameError('')
+      } else {
+        setUsernameError(
+          `Username can only contain lowercase letters, 
+           numbers, dots (.) and underscores (_)
+          `
+        )
+      }
+    }
+    
     if (name === "confirm_password" || name === "password") {
       setPasswordMatch(user.password === value || user.confirm_password === value);
     }
+
+    setUser((currentUser) => ({
+      ...currentUser,
+      [name]: value,
+    }))
   }
 
 
@@ -119,13 +147,11 @@ const Signup = () => {
     if (!agreed) return
 
     try {
-      console.log(user)
       await signup(user)
       setUser(initialUser)
       navigate("/")
     } catch (error) {
       setUser(initialUser)
-      throw error
     }
   }
 
@@ -177,6 +203,11 @@ const Signup = () => {
           value={user.username}
           onChange={handleChange}
         />
+        {usernameError && (
+          <UsernameErrorLink>
+            {usernameError}
+          </UsernameErrorLink>
+        )}
       </FieldContainer>
 
       <FieldContainer>
@@ -189,6 +220,22 @@ const Signup = () => {
           required
           value={user.email}
           onChange={handleChange}
+        />
+      </FieldContainer>
+
+      <FieldContainer>
+        <PhoneInput
+           country={'ke'}
+           name="phone_number"
+           value={user.phone_number}
+           onChange={(value) => {
+              setUser((currentUser) =>({
+                 ...currentUser,
+                phone_number: value
+              }))
+           }}
+           inputStyle={{ width: '100%' }}
+           required
         />
       </FieldContainer>
 

@@ -1,7 +1,7 @@
 import WhiteHeader from "../../components/White Header/WhiteHeader"
 import Footer from "../../components/Footer/Footer"
 import style from './Home.module.css'
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import {userData} from "../../Helpers"
 import fetchTours from "../../hooks/ToursFetch"
 import HomeCard from "../../components/HomeCard/HomeCard"
@@ -12,7 +12,9 @@ const Home = () => {
   
     const [tours, setTours] = useState([])
     const {firstName} = userData() || {}
+    const navigate = useNavigate()
 
+    
 
     useEffect(()=> {
       const getTours = async() => {
@@ -21,6 +23,7 @@ const Home = () => {
               setTours(data)
           } catch (error) {
               toast('An error occured fetching tours')
+              navigate('/maintenance')
               console.log(error)
           }
       }

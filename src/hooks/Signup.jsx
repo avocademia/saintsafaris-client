@@ -20,7 +20,8 @@ const signup = async (user) => {
           }
       }
     } catch (error) {
-      toast(error.response.data.error.message, {
+      console.log(error)
+      toast(error.response, {
         hideProgressBar: true,
       }) 
       throw error

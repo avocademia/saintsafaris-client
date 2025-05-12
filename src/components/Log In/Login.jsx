@@ -2,7 +2,8 @@ import styled from "styled-components"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import login from "../../hooks/login"
-import { ToastContainer } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
+import {FaEye,FaTimes} from "react-icons/fa"
 
 const LogInForm = styled.form`
   display: flex;
@@ -53,6 +54,7 @@ const Login = () => {
 
     const initialUser = {identifier: "",password: "" }
     const [user, setUser] = useState(initialUser)
+    const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
     
     const handleChange = (event) => {
@@ -68,9 +70,21 @@ const Login = () => {
         try {
             await login(user)
             setUser(initialUser)
-            navigate('/')
+            //navigate('/')
         } catch (error) {
+            toast(`invalid ceredentials`, {
+              hideProgressBar: true,
+            })
+            console.log(error)
             setUser(initialUser)
+        }
+    }
+
+    const handleShowPassword = () => {
+        if (!showPassword) {
+          setShowPassword(true)
+        } else {
+          setShowPassword(false)
         }
     }
 
@@ -90,14 +104,20 @@ const Login = () => {
           </FieldContainer>
           <FieldContainer>
               <Label htmlFor="pswrd">password</Label>
-              <Input
-              id="pswrd"
-              type="password" 
-              name="password" 
-              placeholder="password"
-              onChange={handleChange}
-              value={user.password}
-              />
+              <>
+                <Input
+                id="pswrd"
+                type={showPassword? 'text' : 'password'} 
+                name="password" 
+                placeholder="password"
+                onChange={handleChange}
+                value={user.password}
+                />
+                <button type='button' onClick={handleShowPassword}>
+                  {showPassword? <FaTimes/>: <FaEye/>}
+                </button>
+              </>
+              
           </FieldContainer>
           <FieldContainer style={{marginTop: '20px'}}>
             <Button type='submit'>Log In</Button>

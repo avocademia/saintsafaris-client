@@ -1,9 +1,7 @@
 import axios from 'axios'
-import authCheck from './AuthCheck'
+import { setCookie } from '../Helpers'
 
 const useSubmitReview = async (data) => {
-
-    console.log(data)
 
     const devUrl = import.meta.env.VITE_DEV_URL
     const prodUrl = import.meta.env.VITE_PROD_URL
@@ -11,15 +9,17 @@ const useSubmitReview = async (data) => {
     
     try {
 
-        const authorized = await authCheck(data)
-        console.log(authorized)
-        if (authorized === true) {
-            axios.post(`${environment === 'production'? prodUrl : devUrl}/api/reviews/create`, 
-                {data},
-            )
+        const response = await axios.post(`${environment === 'production'? prodUrl : devUrl}/api/reviews/create`, 
+            {data},
+            {withCredentials: true}
+        )
+        if (response.data.jwt && typeof response.data.jwt === 'string') {
+            setCookie('acst', response.data.jwt, 30)
         }
+        return response.data 
         
     } catch (error) {
+        console.log(error)
         throw error
     }
 }

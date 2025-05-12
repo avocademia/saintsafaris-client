@@ -23,12 +23,12 @@ const WhiteHeader = () => {
         <Link className={style.whiteNavItem} to="/">Home</Link>
         <Link className={style.whiteNavItem} to="/tours">Tours</Link>
         <div className={style.dropdown}>
-          <button
+          <Link
             className={style.whiteNavItem}
             onClick={toggleServicesDropdown}
           >
             Services <FaCaretDown className={style.dropdownArrow} />
-          </button>
+          </Link>
           {isServicesOpen && (
             <div className={style.dropdownMenu}>
               <Link to="/flight-booking" className={style.dropdownItem}>Flight Booking</Link>

@@ -12,6 +12,7 @@ import TourBooking from "./pages/Tour Booking/TourBooking"
 import UserDashboard from './pages/User DashBoard/UserDashboard'
 import AccommodationBooking from './pages/Accommodation Booking/AccommodationBooking'
 import FlightBooking from './pages/Flight Booking/FlightBooking'
+import Maintenance from './pages/Maintenance/Maintenance'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/accommodation-booking" element={<AccommodationBooking/>}/>
           <Route path="/userdash" element={<UserDashboard/>}/>
           <Route path="/flight-booking" element={<FlightBooking/>}/>
+          <Route path="/maintenance" element={<Maintenance/>}/>
         </Routes>
    </BrowserRouter> 
   )

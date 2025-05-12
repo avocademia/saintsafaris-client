@@ -1,6 +1,6 @@
 import axios from "axios"
 import {toast} from 'react-toastify'
-import authCheck from "./AuthCheck"
+import { setCookie } from "../Helpers"
 
  export const sendQuery = async (data) => {
     
@@ -10,17 +10,19 @@ import authCheck from "./AuthCheck"
 
     try {
 
-        const authorized = await authCheck()
-        if (authorized === true) {
-            const response = await axios.post(`${environment === 'production'? prodUrl : devUrl}/api/queries`, data)
-            return response
+        const response = await axios.post(`${environment === 'production'? prodUrl : devUrl}/api/queries`, data, {
+            withCredentials: true
+        })
+        if (response.data.jwt && typeof response.data.jwt === 'string') {
+            setCookie('acst', response.data.jwt, 30)
         }
+        return response
     
     } catch (error) {
-        console.log(error)
         toast (`Error submitting form. Please try again later`, {
             hideProgressbar: true,
         })
+        console.log(error)
     }
 }
 

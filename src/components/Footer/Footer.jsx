@@ -18,7 +18,7 @@ const Footer = () => {
           </ul> 
          </div> 
          <div className={style.copyrightStatement}> 
-          <p>Saint Travel &amp; Safaris © 2024 All Rights Reserved</p> 
+          <p>Saint Travel &amp; Safaris © 2025 All Rights Reserved</p> 
          </div> 
         </footer> 
   )

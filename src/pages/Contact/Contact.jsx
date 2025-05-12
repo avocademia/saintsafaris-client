@@ -11,8 +11,6 @@ const Contact = () => {
 
     const [loading, setLoading] = useState()
     const [data, setData] = useState({
-        full_name: '',
-        email: '',
         subject: '',
         message: '',
     })
@@ -32,8 +30,6 @@ const Contact = () => {
             if (res) {
                 setLoading(false)
                 setData({
-                    full_name: '',
-                    email: '',
                     subject: '',
                     message: '',
                 })
@@ -106,18 +102,6 @@ const Contact = () => {
                 <article className={style.message}>
                     <h2>Send A Message</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className={style.labelContainer}>
-                            <label htmlFor="full_name" id="labels" className={style.labels}>Full Name</label>
-                        </div>
-                        <div className={style.fieldContainer}>
-                            <input type="text" name="full_name" className={style.inputs} autoComplete="name" placeholder="Full Name" value={data.full_name} onChange={handleInputChange}/>
-                        </div>
-                        <div className={style.labelContainer}>
-                            <label htmlFor="email">Email:</label>
-                        </div>
-                        <div className={style.fieldContainer}>
-                            <input type="email" name="email" value={data.email} onChange={handleInputChange} />
-                        </div>  
                         <div className={style.labelContainer}>
                             <label htmlFor="subject" id="labels" className={style.labels}>Subject</label>
                         </div>

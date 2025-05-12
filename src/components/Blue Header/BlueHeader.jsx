@@ -21,23 +21,22 @@ const BlueHeader = () => {
             <img className={style.logo} src={logoBlue}/>
             <nav ref={navRef} className={style.navMenu}>
                 <Link className={style.blueNavItem} to="/">Home</Link>
-                <Link className={style.blueNavItem} to="/about">About Us</Link>
                 <Link className={style.blueNavItem} to="/tours">Tours</Link>
-                
                 <div className={style.dropdown}>
-                    <button
-                        className={style.whiteNavItem}
+                    <Link
                         onClick={toggleServicesDropdown}
+                        className={style.blueNavItem}
                     >
                         Services <FaCaretDown className={style.dropdownArrow} />
-                    </button>
+                    </Link>
                     {isServicesOpen && (
                         <div className={style.dropdownMenu}>
-                        <Link to="/flight-booking" className={style.dropdownItem}>Flight Booking</Link>
-                        <Link to="/accommodation-booking" className={style.dropdownItem}>Accommodation</Link>
+                            <Link to="/flight-booking" className={style.dropdownItem}>Flight Booking</Link>
+                            <Link to="/accommodation-booking" className={style.dropdownItem}>Accommodation</Link>
                         </div>
                     )}
-                </div>  
+                </div>
+                <Link className={style.blueNavItem} to="/about">About Us</Link> 
                 <div className={style.buttonsContainer}>
                     <Link to="/contact"><FaPhone className={style.blueHeaderButton}></FaPhone></Link>
                     <a href="https://wa.me/254755487271" target="_blank"><FaWhatsapp className={style.blueHeaderButton}/></a>

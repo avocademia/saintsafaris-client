@@ -6,7 +6,6 @@ export const storeUser = (user) => {
             middleName: user.middle_name,
             surname: user.surname,
             username: user.username,
-            userId: user.id,
         }))
     } catch (error) {
         throw error
@@ -21,21 +20,25 @@ export const storeToken = (token) => {
     }
 }
 
+export const setCookie = (name, value, days) => {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+    const expires = `expires=${date.toUTCString()}`
+    
+    document.cookie = `${name}=${value};${expires};path=/;SameSite=None;Secure`
+}
+
 export const userData = () => {
 
-    const stringifiedToken = localStorage.getItem('accessToken')
     const stringifiedUser = localStorage.getItem("user")
     let user = {}
-    let token
       
-    if (stringifiedUser && stringifiedToken) {
+    if (stringifiedUser) {
         try {
             user = JSON.parse(stringifiedUser)
-            token = JSON.parse(stringifiedToken)
             const currentTime = new Date().getTime()
             if (user.expiresAt && currentTime > user.expiresAt) {
               clearUserData()
-              return {}
             }
         } catch (error) {
             console.error("Error parsing user data:", error)
@@ -43,7 +46,6 @@ export const userData = () => {
             return {}
         }
     }
-    user.accessToken  = token
     return user
 }
   
@@ -56,4 +58,8 @@ export const clearUserData = () => {
         throw error
     }
 }
+
+export const clearCookies = () => {
+    document.cookie = 'acst=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;'
+} 
   

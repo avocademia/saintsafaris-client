@@ -61,7 +61,18 @@ const Tour = () => {
         const data = await useDataFetching(id)
         const reviews = await fetchReviews(id)
         setTour(data.data)
-        setReviews(reviews)
+        const actualText = () => {
+          const actualReviews = reviews.map(review => {
+            const actualReview = review
+            const Review = document.createElement('textarea')
+            Review.innerHTML = actualReview.body
+            actualReview.body = Review.innerHTML
+            return actualReview
+          })
+          
+          setReviews(actualReviews)
+        }
+        actualText()
   
       } catch (error) {
         throw error
