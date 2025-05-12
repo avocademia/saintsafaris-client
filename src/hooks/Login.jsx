@@ -7,18 +7,12 @@ import { toast } from "react-toastify"
   const environment = import.meta.env.NODE_ENV
   const url = `${environment === 'production'? prodUrl:devUrl}/api/auth/local`
 
-const login = async (user) => {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user),
-  });
+    try {
 
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data?.error?.message || "Login failed"); // <- This is critical
-  }
+      if (user.identifier && user.password) {
+        
+            const res = await axios.post(url, user, {withCredentials: true})
+            const {data} = res
 
   if (data.jwt && data.user) {
 

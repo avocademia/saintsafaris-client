@@ -54,7 +54,6 @@ const Login = () => {
 
     const initialUser = {identifier: "",password: "" }
     const [user, setUser] = useState(initialUser)
-    const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
     
     const handleChange = (event) => {

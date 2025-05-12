@@ -147,11 +147,13 @@ const Signup = () => {
     if (!agreed) return
 
     try {
+      console.log(user)
       await signup(user)
       setUser(initialUser)
       navigate("/")
     } catch (error) {
       setUser(initialUser)
+      throw error
     }
   }
 
