@@ -7,13 +7,14 @@ const environment = import.meta.env.NODE_ENV
 
 const logout = async () => {
     try {
-        
+        clearCookies()
         await axios.delete(`${environment === 'production' ? prodUrl : devUrl}/api/logout`, {
             withCredentials: true,
         })
-        clearCookies()
+        clearUserData()
         
     } catch (error) {
+        clearCookies()
         clearUserData()
         throw error
     }

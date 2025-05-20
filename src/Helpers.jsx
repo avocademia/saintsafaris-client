@@ -1,3 +1,6 @@
+const environment = import.meta.env.NODE_ENV
+const isProduction = environment === 'production'
+
 export const storeUser = (user) => {
 
     try {
@@ -20,13 +23,21 @@ export const storeToken = (token) => {
     }
 }
 
-export const setCookie = (name, value, days) => {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-    const expires = `expires=${date.toUTCString()}`
-    
-    document.cookie = `${name}=${value};${expires};path=/;SameSite=None;Secure`
-}
+export const setCookie = (name, value, days = 30) => {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+
+  document.cookie = [
+    `${name}=${value}`,
+    `expires=${date.toUTCString()}`,
+    'path=/',
+    'domain=.saintsafaris.com',   // ◄─ leading dot !
+    'SameSite=None',
+    location.protocol === 'https:' ? 'Secure' : '',
+  ]
+    .filter(Boolean)
+    .join(';');
+};
 
 export const userData = () => {
 

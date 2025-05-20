@@ -2,10 +2,12 @@ import axios from 'axios'
 
 const fetchSingleTour = async (id) => {
 
-      const devUrl = import.meta.env.VITE_DEV_URL
-      const prodUrl = import.meta.env.VITE_PROD_URL
-      const apiToken = import.meta.env.VITE_API_TOKEN
-      const environment = import.meta.env.NODE_ENV
+        const environment = import.meta.env.NODE_ENV
+        const isProduction = environment === 'production'
+        const devUrl = import.meta.env.VITE_DEV_URL
+        const prodUrl = import.meta.env.VITE_PROD_URL
+        const apiToken = isProduction? import.meta.env.VITE_PROD_API_TOKEN : import.meta.env.VITE_DEV_API_TOKEN
+
 
       try {
 

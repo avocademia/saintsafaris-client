@@ -94,7 +94,7 @@ const Contact = () => {
                             </div>
                             <div className={style.textHolder}>
                                 <h4>Mail</h4>
-                                <span>info@saintsafaris.com</span>
+                                <span>customercare@saintsafaris.com</span>
                             </div>
                         </div>
                     </a>

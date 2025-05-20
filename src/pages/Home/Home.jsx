@@ -22,9 +22,8 @@ const Home = () => {
               const data = await fetchTours()
               setTours(data)
           } catch (error) {
-              toast('An error occured fetching tours')
-              navigate('/maintenance')
-              console.log(error)
+              throw error
+              //navigate('/maintenance')
           }
       }
         getTours()

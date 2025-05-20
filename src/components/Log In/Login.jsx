@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import login from "../../hooks/login"
+import login from "../../hooks/Login"
 import { ToastContainer, toast } from "react-toastify"
 import {FaEye,FaTimes} from "react-icons/fa"
 
@@ -54,6 +54,7 @@ const Login = () => {
 
     const initialUser = {identifier: "",password: "" }
     const [user, setUser] = useState(initialUser)
+    const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
     
     const handleChange = (event) => {
@@ -69,7 +70,7 @@ const Login = () => {
         try {
             await login(user)
             setUser(initialUser)
-            //navigate('/')
+            navigate('/')
         } catch (error) {
             toast(`invalid ceredentials`, {
               hideProgressBar: true,
