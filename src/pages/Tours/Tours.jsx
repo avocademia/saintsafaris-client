@@ -7,11 +7,13 @@ import {useEffect, useState} from 'react'
 
 const Tours = () => {
   const [tours, setTours] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(()=> {
     const getTours = async() => {
         try {
             const data = await fetchTours()
+            setLoading(false)
             setTours(data)
         } catch (error) {
             throw error
@@ -23,11 +25,13 @@ const Tours = () => {
   return (
     <main className={style.toursPage}>
       <BlueHeader/>
-      <section className={style.allTours}>
-        {tours.map((tour) => (
-          <TourCard key={tour.id} tour={tour} tourId={tour.id} />
-        ))}
-      </section>
+      {loading? (<section className={style.allTours}>Loading...</section>) :
+          <section className={style.allTours}>
+            {tours.map((tour) => (
+              <TourCard key={tour.id} tour={tour} tourId={tour.id} />
+            ))}
+          </section>  
+      }
       <Footer/>
     </main>
   )

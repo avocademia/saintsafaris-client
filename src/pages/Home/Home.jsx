@@ -11,19 +11,18 @@ import { useState,useEffect } from "react"
 const Home = () => {
   
     const [tours, setTours] = useState([])
-    const {firstName} = userData() || {}
-    const navigate = useNavigate()
-
-    
+    const [loading, setLoading] = useState(true)
+    const {firstName} = userData() || {}    
 
     useEffect(()=> {
       const getTours = async() => {
           try {
               const data = await fetchTours()
               setTours(data)
+              setLoading(false)
           } catch (error) {
+              setLoading(false)
               throw error
-              //navigate('/maintenance')
           }
       }
         getTours()
@@ -44,11 +43,15 @@ const Home = () => {
       </section>
       <section className={style.toursSection}>
         <h1>Popular Tours</h1>
-        <div className={style.cardContainer}>
-          {tours.slice(0, 3).map((tour) => (
-            <HomeCard key={tour.id} tour={tour} tourId={tour.id} />
-          ))}
-        </div>
+        {loading? 
+          <p className={style.loading}>Loading...</p> : 
+
+          <div className={style.cardContainer}>
+            {tours && tours.slice(0, 3).map((tour) => (
+              <HomeCard key={tour.id} tour={tour} tourId={tour.id} />
+            ))}
+          </div>
+        }
       </section>
       <Footer className={style.homeFooter}/>
     </main>

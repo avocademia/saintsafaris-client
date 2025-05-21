@@ -3,7 +3,7 @@ import { userData, clearUserData } from "../../Helpers"
 import { Link, Navigate } from "react-router-dom"
 import { useState } from "react"
 import logout from "../../hooks/logout"
-import dp from '../../../public/user.png'
+import dp from '../../assets/user.png'
 import styles from './UserDashboard.module.css'
 import BlueHeader from '../../components/Blue Header/BlueHeader'
 
