@@ -12,7 +12,7 @@ const fetchSingleTour = async (id) => {
       try {
 
         const res = await axios.get(
-          `${environment === 'production'? prodUrl : devUrl}/api/tours/1?populate[media]=true&populate[display_picture]=true`,
+          `${environment === 'production'? prodUrl : devUrl}/api/tours/${id}?populate[media]=true&populate[display_picture]=true`,
           {
             headers: {
               Authorization: `Bearer ${apiToken}`,

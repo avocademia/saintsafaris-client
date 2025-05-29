@@ -1,6 +1,6 @@
 
 import { userData, clearUserData } from "../../Helpers"
-import { Link, Navigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import logout from "../../hooks/logout"
 import dp from '../../assets/user.png'
@@ -9,10 +9,12 @@ import BlueHeader from '../../components/Blue Header/BlueHeader'
 
 const UserDashboard = () => {
   const user = userData() || {}
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     logout()
     clearUserData()
+    navigate('/')
   }
 
   return user.firstName? (

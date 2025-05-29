@@ -44,7 +44,9 @@ const Home = () => {
       <section className={style.toursSection}>
         <h1>Popular Tours</h1>
         {loading? 
-          <p className={style.loading}>Loading...</p> : 
+          <div className={style.loadingContainer}>
+            <div className={style.loading}></div>
+          </div> : 
 
           <div className={style.cardContainer}>
             {tours && tours.slice(0, 3).map((tour) => (

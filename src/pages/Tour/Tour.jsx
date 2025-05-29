@@ -15,7 +15,7 @@ import style from "./Tour.module.css"
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Pagination } from 'swiper/modules'
 import { Link, useParams } from "react-router-dom"
-import { FaBed, FaSun, FaStar, FaLessThanEqual } from "react-icons/fa"
+import { FaBed, FaSun, FaStar, FaLessThanEqual, FaCloudDownloadAlt } from "react-icons/fa"
 import { userData } from "../../Helpers"
 import fetchReviews from "../../hooks/ReviewsFetch"
 import { useEffect, useState } from "react"
@@ -61,6 +61,7 @@ const Tour = () => {
         const data = await useDataFetching(id)
         const reviews = await fetchReviews(id)
         setTour(data.data)
+        console.log(data.data)
         const actualText = () => {
           const actualReviews = reviews.map(review => {
             const actualReview = review
@@ -79,6 +80,7 @@ const Tour = () => {
       }
     }
     fetchTourData()
+    window.scrollTo(0, 0)
   },[newReview])
 
   /*const handleItinerary = () => {

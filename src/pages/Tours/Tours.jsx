@@ -25,7 +25,9 @@ const Tours = () => {
   return (
     <main className={style.toursPage}>
       <BlueHeader/>
-      {loading? (<section className={style.allTours}>Loading...</section>) :
+      {loading? (<section className={style.allTours}>
+        <div className={style.loading}></div>
+      </section>) :
           <section className={style.allTours}>
             {tours.map((tour) => (
               <TourCard key={tour.id} tour={tour} tourId={tour.id} />
